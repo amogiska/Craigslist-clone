@@ -5,11 +5,22 @@ package craigslist.clone;
 
 import io.javalin.Javalin;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class App {
 
-  public static void main(String[] args) {
-    Javalin app = Javalin.create().start(7070);
-    app.get("/", ctx -> ctx.result("Hello World"));
-  }
+    public static void main(String[] args) {
+        Javalin app = Javalin.create().start(7070);
+
+        app.get("/", ctx -> ctx.result("Hello World"));
+
+        app.get("/listings/count", ctx -> {
+            DBConnector connector = DBConnector.get();
+            Map<String, Integer> result = new HashMap<>();
+            result.put("total_listing_count", connector.getNumListings());
+            ctx.json(result);
+        });
+    }
 
 }
