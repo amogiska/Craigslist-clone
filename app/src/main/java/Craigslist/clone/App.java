@@ -44,18 +44,35 @@ public class App {
 
         app.get("/listings/delete/{listingID}", ctx -> {
             DBConnector connector = DBConnector.get();
-            connector.deleteListing(Integer.parseInt(ctx.pathParam("listingID")));
+            try{
+                int listingID = Integer.parseInt(ctx.pathParam("listingID"));
+                connector.deleteListing(listingID);
+            } catch(NumberFormatException e){
+                ctx.status(400);
+            }
+
+
         });
 
         app.get("/user/delete/{userID}", ctx -> {
            DBConnector connector = DBConnector.get();
-           connector.deleteUser(Integer.parseInt(ctx.pathParam("userID")));
+           try{
+               int userID = Integer.parseInt(ctx.pathParam("userID"));
+               connector.deleteUser(userID);
+           } catch(NumberFormatException e){
+               ctx.status(400);
+           }
         });
 
         app.get("/listings/{userid}", ctx -> {
             DBConnector connector = DBConnector.get();
-            List<Listing> tmp = connector.getListingForUser(Integer.parseInt(ctx.pathParam("userid")));
-            ctx.json(tmp);
+            try{
+                int userid = Integer.parseInt(ctx.pathParam("userid"));
+                List<Listing> tmp = connector.getListingForUser(userid);
+                ctx.json(tmp);
+            } catch(NumberFormatException e){
+                ctx.status(400);
+            }
         });
 
     }

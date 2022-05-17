@@ -45,7 +45,7 @@ public class DBConnector {
         }
     }
 
-    private Listing getListingFromResultSet(ResultSet resultSet){
+    private static Listing getListingFromResultSet(ResultSet resultSet){
 
         try {
             int id = resultSet.getInt("id");
@@ -60,10 +60,8 @@ public class DBConnector {
 
             return listing;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Unable to get listings", e);
         }
-
-        return null;
     }
 
     public List<Listing> getAllListings(){
