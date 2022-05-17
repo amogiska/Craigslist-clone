@@ -3,9 +3,11 @@
  */
 package craigslist.clone;
 
+
 import io.javalin.Javalin;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class App {
@@ -21,6 +23,41 @@ public class App {
             result.put("total_listing_count", connector.getNumListings());
             ctx.json(result);
         });
+
+        app.get("/listings/all", ctx -> {
+            DBConnector connector = DBConnector.get();
+            List<Listing> temp = connector.getAllListings();
+            ctx.json(temp);
+        });
+
+        app.get("/listings/create", ctx -> {
+           DBConnector connector = DBConnector.get();
+           Listing listing = ctx.bodyAsClass(Listing.class);
+           connector.createListing(listing);
+        });
+
+        app.get("/user/create", ctx -> {
+            DBConnector connector = DBConnector.get();
+            User user = ctx.bodyAsClass(User.class);
+            connector.createUser(user);
+        });
+
+        app.get("/listings/delete/{listingID}", ctx -> {
+            DBConnector connector = DBConnector.get();
+            connector.deleteListing(Integer.parseInt(ctx.pathParam("listingID")));
+        });
+
+        app.get("/user/delete/{userID}", ctx -> {
+           DBConnector connector = DBConnector.get();
+           connector.deleteUser(Integer.parseInt(ctx.pathParam("userID")));
+        });
+
+        app.get("/listings/{userid}", ctx -> {
+            DBConnector connector = DBConnector.get();
+            List<Listing> tmp = connector.getListingForUser(Integer.parseInt(ctx.pathParam("userid")));
+            ctx.json(tmp);
+        });
+
     }
 
 }
