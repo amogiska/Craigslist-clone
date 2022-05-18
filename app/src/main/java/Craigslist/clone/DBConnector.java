@@ -45,7 +45,7 @@ public class DBConnector {
         }
     }
 
-    private static Listing getListingFromResultSet(ResultSet resultSet){
+    private static Listing getListingFromResultSet(ResultSet resultSet) {
 
         try {
             int id = resultSet.getInt("id");
@@ -64,14 +64,14 @@ public class DBConnector {
         }
     }
 
-    public List<Listing> getAllListings(){
+    public List<Listing> getAllListings() {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement("SELECT * FROM listings");
             ResultSet resultSet = ps.executeQuery();
 
             List<Listing> result = new ArrayList<>();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 Listing listing = getListingFromResultSet(resultSet);
                 result.add(listing);
             }
@@ -82,13 +82,13 @@ public class DBConnector {
 
     }
 
-    public List<Listing> getListingForUser(int userID){
+    public List<Listing> getListingForUser(int userID) {
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM listings WHERE userid=?");
             ps.setInt(1, userID);
             ResultSet resultSet = ps.executeQuery();
             List<Listing> result = new ArrayList<>();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 Listing listing = getListingFromResultSet(resultSet);
                 result.add(listing);
             }
@@ -99,7 +99,7 @@ public class DBConnector {
 
     }
 
-    public void createListing(Listing listing){
+    public void createListing(Listing listing) {
 
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -120,7 +120,7 @@ public class DBConnector {
         }
     }
 
-    public void createUser(User user){
+    public void createUser(User user) {
         try {
             PreparedStatement ps =
                     connection.prepareStatement("INSERT INTO user(username, firstname, lastname, " +
@@ -136,18 +136,18 @@ public class DBConnector {
         }
     }
 
-    public void deleteListing(int listingID){
+    public void deleteListing(int listingID) {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement("DELETE FROM listings WHERE id=?");
             ps.setInt(1, listingID);
             ps.execute();
         } catch (SQLException e) {
-           throw new RuntimeException("Unable to delete row from listing", e);
+            throw new RuntimeException("Unable to delete row from listing", e);
         }
     }
 
-    public void deleteUser(int userId){
+    public void deleteUser(int userId) {
         try {
             PreparedStatement ps = connection.prepareStatement("DELETE FROM user WHERE id=?");
             ps.setInt(1, userId);

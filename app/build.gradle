@@ -16,6 +16,7 @@ dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.31'
     implementation 'mysql:mysql-connector-java:8.0.28'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.2.2'
+    testImplementation 'ch.vorburger.mariaDB4j:mariaDB4j:2.2.1'
 }
 
 testing {
