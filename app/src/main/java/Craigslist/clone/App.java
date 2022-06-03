@@ -75,6 +75,20 @@ public class App {
             }
         });
 
+        app.get("/url/create", ctx -> {
+            DBConnector connector = DBConnector.get();
+            Url url = ctx.bodyAsClass();
+            connector.createTinyurl(url);
+        });
+
+        app.get("/url/{urlid}", ctx ->{
+            int urlid = Integer.parseInt(ctx.pathParam("userid"));
+            String tmp = connector.getBigurl(urlid);
+            Map<String, String> result = new HashMap<>();
+            result.put("bigurl", tmp);
+            ctx.json(result);
+        });
+
     }
 
 }

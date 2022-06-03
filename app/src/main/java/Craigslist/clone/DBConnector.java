@@ -156,4 +156,29 @@ public class DBConnector {
             throw new RuntimeException("Unable to delete row from user", e);
         }
     }
+
+    public void createTinyurl(Url url){
+
+        try {
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO tinyurl(bigurl, tinyurl) VALUES(?, ?)");
+            ps.setString(1, url.getBigurl());
+            ps.setString(2, url.getTinyurl());
+            ps.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException("Unable to insert row into url table", e);
+        }
+
+    }
+
+    public String getBigurl(int urlid){
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT bigurl FROM listings WHERE id=?");
+            ps.setString(1, String.valueOf(urlid));
+            ResultSet resultSet = ps.executeQuery();
+            resultSet.next();
+            return resultSet.getString("bigurl");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
